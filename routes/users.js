@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const { User, validate } = require('../models/user');
 const mongoose = require('mongoose');
 const express = require('express');
@@ -7,6 +8,10 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
+router.get('/me', auth, async (req, res) => {
+  const user = await User.findById(req.user._id).select('-password');
+  res.send(user);
+})
 
 router.post('/', async (req, res) => {
   const { error } = validate(req.body);
