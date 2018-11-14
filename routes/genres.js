@@ -5,7 +5,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const genres = await Genre.find().sort('name');
     res.send(genres);
